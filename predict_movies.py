@@ -45,7 +45,7 @@ print(u_item_headers)
 
 items_dataset = pd.read_csv('ml-100k/u.item', sep='|',header=None,names=u_item_headers,encoding='latin-1')
 movie_dataset = items_dataset[['movie id','movie title']]
-movie_dataset.head()
+print(movie_dataset.head())
 
 combined_dataset = pd.merge(u_data_dataset, movie_dataset, how='inner', on='movie id')
 
@@ -108,7 +108,7 @@ def recommender_system(user_id, model, n_movies):
 
 st.title('IISc Project - Movie Recommendation System with MLOps')
 
-user_id = st.text_input('Enter User ID', '5')
+user_id = st.text_input('Enter User ID', '20127')
 st.write('User ID is', user_id)
 
 n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
