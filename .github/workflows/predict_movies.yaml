@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: train_model
+      - name: predict_model
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
