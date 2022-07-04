@@ -69,6 +69,11 @@ print("Dataset Loaded Successfully")
 model_store = ModelStore.from_aws_s3("iiscmlops")
 domain_name = "prod-movie-model"
 
+import os
+
+print ("Current directory")
+print (os.listdir(os.curdir))
+
 model_name = model_store.download(
    local_path=".",
    domain=domain_name
@@ -76,13 +81,8 @@ model_name = model_store.download(
 print("Model Name")
 print (model_name)
 
-import os
-
-print ("Current directory")
-print (os.listdir(os.curdir))
-
 print ("Model path directory")
-print (os.listdir(model_name))
+print (os.listdir(os.path.join(model_name, "model")))
 
 
 
