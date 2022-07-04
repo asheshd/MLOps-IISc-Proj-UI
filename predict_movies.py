@@ -62,7 +62,6 @@ n_movies = master_dataset['movie'].nunique()
 master_dataset['rating'] = master_dataset['rating'].values.astype(np.float32)
 min_rating = min(master_dataset['rating'])
 max_rating = max(master_dataset['rating'])
-n_users, n_movies, min_rating, max_rating
 
 print (master_dataset.head())
 
@@ -70,8 +69,6 @@ print("Dataset Loaded Successfully")
 
 model_store = ModelStore.from_aws_s3("iiscmlops")
 domain_name = "prod-movie-model"
-
-
 
 model_path = model_store.download(
    local_path=".",
@@ -100,8 +97,8 @@ def recommender_system(user_id, model, n_movies):
   sorted_index = np.argsort(predicted_ratings)[::-1]
   recommended_movies = movie_encoder.inverse_transform(sorted_index)
   
-  print("Top", n_movies, "Movie recommendations for the User ", user_id, "are: ")
-  print(list(recommended_movies[:n_movies]))
+#   print("Top", n_movies, "Movie recommendations for the User ", user_id, "are: ")
+#   print(list(recommended_movies[:n_movies]))
   return list(recommended_movies[:n_movies])
     
 
