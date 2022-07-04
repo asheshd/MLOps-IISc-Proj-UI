@@ -99,17 +99,18 @@ def recommender_system(user_id, model, n_movies):
   sorted_index = np.argsort(predicted_ratings)[::-1]
   recommended_movies = movie_encoder.inverse_transform(sorted_index)
   
-  
   print("Top", n_movies, "Movie recommendations for the User ", user_id, "are: ")
   print(list(recommended_movies[:n_movies]))
+  return list(recommended_movies[:n_movies])
+    
 
 
-user_id= 5 # int(input("Enter user id: "))
-n_movies = 10 # int(input("Enter number of movies to be recommended: "))
+# user_id= 5 # int(input("Enter user id: "))
+# n_movies = 10 # int(input("Enter number of movies to be recommended: "))
 
 st.title('IISc Project - Movie Recommendation System with MLOps')
 
-userid = st.text_input('Enter User ID', '1')
+userid = st.text_input('Enter User ID', '5')
 st.write('User ID is', userid)
 
 n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
