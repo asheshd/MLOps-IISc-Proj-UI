@@ -1,0 +1,7 @@
+numpy
+pandas
+boto3
+modelstore
+sklearn
+tensorflow==2.8.2
+keras==2.8.0
