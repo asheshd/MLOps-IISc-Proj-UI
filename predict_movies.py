@@ -119,7 +119,7 @@ st.write("Recommending ", n_movies, 'movies with Deep Learning for User ID ', us
 
 # Call Recommendation Function with userid and n_movies
 
-result = recommender_system(user_id, model, int(n_movies))
+result = recommender_system(1, model, 5)
 
 print ("Movie List")
 print  (result)
