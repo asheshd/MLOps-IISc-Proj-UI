@@ -115,7 +115,7 @@ user_id = st.text_input('Enter User ID', '5')
 st.write('User ID is', user_id)
 
 n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
-st.write("Recommending ", n_movies, 'movies with Deep Learning for User ID ', userid )
+st.write("Recommending ", n_movies, 'movies with Deep Learning for User ID ', user_id )
 
 # Call Recommendation Function with userid and n_movies
 
