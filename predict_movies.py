@@ -14,6 +14,7 @@ import os
 import requests
 import zipfile
 import io
+import streamlit as st
 
 from sklearn.preprocessing import LabelEncoder
 import tensorflow.keras.models
@@ -105,4 +106,24 @@ def recommender_system(user_id, model, n_movies):
 
 user_id= 5 # int(input("Enter user id: "))
 n_movies = 10 # int(input("Enter number of movies to be recommended: "))
-recommender_system(user_id,model,n_movies)
+
+st.title('IISc Project - Movie Recommendation System with MLOps')
+
+userid = st.text_input('Enter User ID', '1')
+st.write('User ID is', userid)
+
+n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
+st.write("Recommending ", n_movies, 'movies with Deep Learning for User ID ', userid )
+
+# Call Recommendation Function with userid and n_movies
+
+result = recommender_system(userid, model, n_movies)
+
+print ("Movie List")
+print  (result)
+
+df = pd.DataFrame(result, columns=['Movie Name'])
+df.index += 1
+st.write(df)
+
+
