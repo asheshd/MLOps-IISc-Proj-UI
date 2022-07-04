@@ -87,6 +87,7 @@ print(model)
 
 def recommender_system(user_id, model, n_movies):
 
+  print ("User ID ", user_id)  
   encoded_user_id = user_encoder.transform([user_id])
 
   seen_movies = list(master_dataset[master_dataset['user id'] == user_id]['movie'])
@@ -110,15 +111,15 @@ def recommender_system(user_id, model, n_movies):
 
 st.title('IISc Project - Movie Recommendation System with MLOps')
 
-userid = st.text_input('Enter User ID', '5')
-st.write('User ID is', userid)
+user_id = st.text_input('Enter User ID', '5')
+st.write('User ID is', user_id)
 
 n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
 st.write("Recommending ", n_movies, 'movies with Deep Learning for User ID ', userid )
 
 # Call Recommendation Function with userid and n_movies
 
-result = recommender_system(userid, model, n_movies)
+result = recommender_system(int(user_id), model, int(n_movies))
 
 print ("Movie List")
 print  (result)
