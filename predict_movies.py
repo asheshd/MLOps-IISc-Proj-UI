@@ -10,6 +10,7 @@ Original file is located at
 import pandas as pd
 import numpy as np
 
+import os
 import requests
 import zipfile
 import io
@@ -69,24 +70,18 @@ print("Dataset Loaded Successfully")
 model_store = ModelStore.from_aws_s3("iiscmlops")
 domain_name = "prod-movie-model"
 
-import os
 
-print ("Current directory")
-print (os.listdir(os.curdir))
 
 model_path = model_store.download(
    local_path=".",
    domain=domain_name
 )
-print("Model Path")
-print (model_path)
 
-print ("Model path directory")
 model_name  = os.path.join(model_path, "model")
+print ("Model path directory")
 print (os.listdir(model_name))
 
 model =  tensorflow.keras.models.load_model(model_name)
-
 print(model)
 
 def recommender_system(user_id, model, n_movies):
