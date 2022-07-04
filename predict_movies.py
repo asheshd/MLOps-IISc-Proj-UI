@@ -108,7 +108,7 @@ def recommender_system(user_id, model, n_movies):
 
 st.title('IISc Project - Movie Recommendation System with MLOps')
 
-user_id = st.text_input('Enter User ID', '20127')
+user_id = st.text_input('Enter User ID', '100')
 st.write('User ID is', user_id)
 
 n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
