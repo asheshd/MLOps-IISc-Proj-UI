@@ -17,6 +17,9 @@ import io
 from sklearn.preprocessing import LabelEncoder
 import tensorflow.keras.models
 
+from modelstore import ModelStore
+import json
+
 DATASET_LINK='http://files.grouplens.org/datasets/movielens/ml-100k.zip'
 
 r = requests.get(DATASET_LINK)
@@ -45,7 +48,6 @@ movie_dataset.head()
 combined_dataset = pd.merge(u_data_dataset, movie_dataset, how='inner', on='movie id')
 
 master_dataset = combined_dataset.groupby(by=['user id','movie title'], as_index=False).agg({"rating":"mean"})
-master_dataset
 
 user_encoder = LabelEncoder()
 master_dataset['user'] = user_encoder.fit_transform(master_dataset['user id'].values)
@@ -62,11 +64,21 @@ n_users, n_movies, min_rating, max_rating
 
 print (master_dataset.head())
 
-print("Database Loaded")
+print("Dataset Loaded Successfully")
 
-model_name = 'movie_model.h5'
+model_store = ModelStore.from_aws_s3("iiscmlops")
+domain_name = "prod-movie-model"
+
+model_name = model_store.download(
+   local_path=".",
+   domain=domain_name
+)
+
+print (model_name)
 
 model =  tensorflow.keras.models.load_model(model_name)
+
+print(model)
 
 def recommender_system(user_id, model, n_movies):
 
@@ -86,8 +98,7 @@ def recommender_system(user_id, model, n_movies):
   print("Top", n_movies, "Movie recommendations for the User ", user_id, "are: ")
   print(list(recommended_movies[:n_movies]))
 
-print(model)
 
-user_id= int(input("Enter user id: "))
-n_movies = int(input("Enter number of movies to be recommended: "))
+user_id= 5 # int(input("Enter user id: "))
+n_movies = 10 # int(input("Enter number of movies to be recommended: "))
 recommender_system(user_id,model,n_movies)
