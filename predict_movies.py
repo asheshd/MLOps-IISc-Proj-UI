@@ -79,10 +79,10 @@ print (model_name)
 import os
 
 print ("Current directory")
-print (os.litdir(.))
+print (os.listdir(os.curdir))
 
 print ("Model path directory")
-print (os.litdir(model_name))
+print (os.listdir(model_name))
 
 
 
