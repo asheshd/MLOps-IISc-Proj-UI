@@ -73,8 +73,18 @@ model_name = model_store.download(
    local_path=".",
    domain=domain_name
 )
-
+print("Model Name")
 print (model_name)
+
+import os
+
+print ("Current directory")
+print (os.litdir(.))
+
+print ("Model path directory")
+print (os.litdir(model_name))
+
+
 
 model =  tensorflow.keras.models.load_model(model_name)
 
