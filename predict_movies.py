@@ -74,17 +74,16 @@ import os
 print ("Current directory")
 print (os.listdir(os.curdir))
 
-model_name = model_store.download(
+model_path = model_store.download(
    local_path=".",
    domain=domain_name
 )
-print("Model Name")
-print (model_name)
+print("Model Path")
+print (model_path)
 
 print ("Model path directory")
-print (os.listdir(os.path.join(model_name, "model")))
-
-
+model_name  = os.path.join(model_path, "model")
+print (os.listdir(model_name))
 
 model =  tensorflow.keras.models.load_model(model_name)
 
