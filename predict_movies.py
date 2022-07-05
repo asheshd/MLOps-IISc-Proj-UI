@@ -29,43 +29,30 @@ z = zipfile.ZipFile(io.BytesIO(r.content))
 z.extractall()
 
 u_info = pd.read_csv('ml-100k/u.info', header=None)
-print(u_info)
-
 u_data_str = 'user id | movie id | rating | timestamp'
 u_data_headers = u_data_str.split(' | ')
-
 u_data_dataset = pd.read_csv('ml-100k/u.data', sep='\t',header=None,names=u_data_headers)
-print(u_data_dataset.head())
-
 len(u_data_dataset), max(u_data_dataset['movie id']),max(u_data_dataset['movie id'])
-
 u_item_str = 'movie id | movie title | release date | video release date | IMDb URL | unknown | Action | Adventure | Animation | Children | Comedy | Crime | Documentary | Drama | Fantasy | Film-Noir | Horror | Musical | Mystery | Romance | Sci-Fi | Thriller | War | Western'
 u_item_headers = u_item_str.split(' | ')
-print(u_item_headers)
-
 items_dataset = pd.read_csv('ml-100k/u.item', sep='|',header=None,names=u_item_headers,encoding='latin-1')
 movie_dataset = items_dataset[['movie id','movie title']]
 print(movie_dataset.head())
-
 combined_dataset = pd.merge(u_data_dataset, movie_dataset, how='inner', on='movie id')
-
 master_dataset = combined_dataset.groupby(by=['user id','movie title'], as_index=False).agg({"rating":"mean"})
-
 user_encoder = LabelEncoder()
 master_dataset['user'] = user_encoder.fit_transform(master_dataset['user id'].values)
 n_users = master_dataset['user'].nunique()
-
 movie_encoder = LabelEncoder()
 master_dataset['movie'] = movie_encoder.fit_transform(master_dataset['movie title'].values)
 n_movies = master_dataset['movie'].nunique()
-
 master_dataset['rating'] = master_dataset['rating'].values.astype(np.float32)
 min_rating = min(master_dataset['rating'])
 max_rating = max(master_dataset['rating'])
 
-print (master_dataset.head())
-
 print("Dataset Loaded Successfully")
+
+# Fetch deployed model from AWS S3 bucket
 
 model_store = ModelStore.from_aws_s3("iiscmlops")
 domain_name = "prod-movie-model"
@@ -79,9 +66,11 @@ model_name  = os.path.join(model_path, "model")
 print ("Model path directory")
 print (os.listdir(model_name))
 
+# Load Model
 model =  tensorflow.keras.models.load_model(model_name)
 print(model)
 
+# Make Predictions
 def recommender_system(user_id, model, n_movies):
 
   print ("User ID ", user_id)  
@@ -99,16 +88,13 @@ def recommender_system(user_id, model, n_movies):
   
 #   print("Top", n_movies, "Movie recommendations for the User ", user_id, "are: ")
 #   print(list(recommended_movies[:n_movies]))
+
   return list(recommended_movies[:n_movies])
     
-
-
-# user_id= 5 # int(input("Enter user id: "))
-# n_movies = 10 # int(input("Enter number of movies to be recommended: "))
-
+# Python Web App
 st.title('IISc Project - Movie Recommendation System with MLOps')
 
-user_id = st.text_input('Enter User ID', '100')
+user_id = st.number_input('Enter User ID', 1, 943, 5, 1, help="User ID is from 1 to 943")
 st.write('User ID is', user_id)
 
 n_movies = st.slider('Number of Movie Recommendation?', 0, 100, 5)
